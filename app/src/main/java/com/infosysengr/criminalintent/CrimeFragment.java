@@ -1,16 +1,21 @@
 package com.infosysengr.criminalintent;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.infosysengr.crime.Crime;
+
+import java.util.Date;
 
 public class CrimeFragment extends Fragment {
     private Crime mCrime;
@@ -43,6 +48,19 @@ public class CrimeFragment extends Fragment {
                 // do nothing
             }
         });
+
+        final Button dateButton = (Button) view.findViewById(R.id.crime_date);
+        dateButton.setText(new Date(mCrime.getMomentItHappened()).toString());
+        dateButton.setEnabled(false);
+
+        final CheckBox solvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
+        solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                mCrime.setSolved(isChecked);
+            }
+        });
+
 
         return view;
     }
