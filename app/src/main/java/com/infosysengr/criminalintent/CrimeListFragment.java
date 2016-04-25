@@ -3,6 +3,7 @@ package com.infosysengr.criminalintent;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -41,6 +42,10 @@ public class CrimeListFragment extends ListFragment {
                 "title", crimeListItem.getCrime().getTitle(),
                 "momentItHappened", new Date(crimeListItem.getCrime().getMomentItHappened()).toString()
                 ) );
+
+        Intent viewDetailsOfCrime = new Intent(getActivity(), CrimeActivity.class);
+        viewDetailsOfCrime.putExtra(CrimeFragment.EXTRA_CRIME_ID, crimeListItem.getCrime().getId());
+        startActivity(viewDetailsOfCrime);
     }
 
     private static class CrimesAdapter extends ArrayAdapter<CrimeListItem> {
@@ -75,5 +80,11 @@ public class CrimeListFragment extends ListFragment {
 
             return crimeItemView;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((CrimesAdapter)getListAdapter()).notifyDataSetChanged();
     }
 }
